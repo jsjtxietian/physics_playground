@@ -1,12 +1,17 @@
 #ifndef _H_MATH_VECTORS_
 #define _H_MATH_VECTORS_
-
-#ifndef NO_EXTRAS
 #include <ostream>
-#endif 
 
-#define RAD2DEG(x) ((x) * 57.295754f)
-#define DEG2RAD(x) ((x) * 0.0174533f)
+//#define RAD2DEG(x) ((x) * 57.295754f)
+//#define DEG2RAD(x) ((x) * 0.0174533f)
+
+#ifndef RAD2DEG
+float RAD2DEG(float radians);
+#endif 
+#ifndef DEG2RAD
+float DEG2RAD(float degrees);
+#endif
+float CorrectDegrees(float degrees);
 
 typedef struct vec2 {
 	union {
@@ -56,7 +61,6 @@ vec3 operator*(const vec3& l, const vec3& r);
 vec2 operator*(const vec2& l, float r);
 vec3 operator*(const vec3& l, float r);
 
-#ifndef NO_EXTRAS
 vec2 operator/(const vec2& l, const vec2& r);
 vec3 operator/(const vec3& l, const vec3& r);
 
@@ -65,7 +69,6 @@ vec3 operator/(const vec3& l, float r);
 
 std::ostream& operator<<(std::ostream& os, const vec2& m);
 std::ostream& operator<<(std::ostream& os, const vec3& m);
-#endif
 
 bool operator==(const vec2& l, const vec2& r);
 bool operator==(const vec3& l, const vec3& r);
@@ -73,7 +76,6 @@ bool operator==(const vec3& l, const vec3& r);
 bool operator!=(const vec2& l, const vec2& r);
 bool operator!=(const vec3& l, const vec3& r);
 
-#ifndef NO_EXTRAS
 vec2& operator+=(vec2& l, const vec2& r);
 vec2& operator-=(vec2& l, const vec2& r);
 vec2& operator*=(vec2& l, const vec2& r);
@@ -87,7 +89,6 @@ vec3& operator*=(vec3& l, const vec3& r);
 vec3& operator*=(vec3& l, const float r);
 vec3& operator/=(vec3& l, const vec3& r);
 vec3& operator/=(vec3& l, const float r);
-#endif
 
 float Dot(const vec2& l, const vec2& r);
 float Dot(const vec3& l, const vec3& r);
@@ -98,7 +99,6 @@ float Magnitude(const vec3& v);
 float MagnitudeSq(const vec2& v);
 float MagnitudeSq(const vec3& v);
 
-#ifndef NO_EXTRAS
 float Distance(const vec2& p1, const vec2& p2);
 float Distance(const vec3& p1, const vec3& p2);
 
@@ -106,7 +106,6 @@ float DistanceSq(const vec2& p1, const vec2& p2);
 float DistanceSq(const vec3& p1, const vec3& p2);
 
 vec2 RotateVector(const vec2& vector, float degrees);
-#endif
 
 void Normalize(vec2& v);
 void Normalize(vec3& v);

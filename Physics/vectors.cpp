@@ -1,10 +1,32 @@
+#include "Compare.h"
 #include "vectors.h"
 #include <cmath>
 #include <cfloat>
 
-// http://realtimecollisiondetection.net/pubs/Tolerances/
-#define CMP(x, y) \
-	(fabsf(x - y) <= FLT_EPSILON * fmaxf(1.0f, fmaxf(fabsf(x), fabsf(y))))
+float CorrectDegrees(float degrees) {
+	while (degrees > 360.0f) {
+		degrees -= 360.0f;
+	}
+	while (degrees < -360.0f) {
+		degrees += 360.0f;
+	}
+	return degrees;
+}
+
+#ifndef RAD2DEG
+float RAD2DEG(float radians) {
+	float degrees = radians * 57.295754f;
+	degrees = CorrectDegrees(degrees);
+	return degrees;
+}
+#endif
+#ifndef DEG2RAD
+float DEG2RAD(float degrees) {
+	degrees = CorrectDegrees(degrees);
+	float radians = degrees * 0.0174533f;
+	return radians;
+}
+#endif
 
 bool operator==(const vec2& l, const vec2& r) { 
 	return CMP(l.x, r.x) && CMP(l.y, r.y);
@@ -54,7 +76,6 @@ vec3 operator*(const vec3& l, float r) {
 	return { l.x * r, l.y * r, l.z * r };
 }
 
-#ifndef NO_EXTRAS
 vec2 operator/(const vec2& l, const vec2& r) {
 	return{ l.x / r.x, l.y / r.y };
 }
@@ -80,7 +101,6 @@ std::ostream& operator<<(std::ostream& os, const vec3& m) {
 	os << "(" << m.x << ", " << m.y << ", " << m.z << ")";
 	return os;
 }
-#endif
 
 float Dot(const vec2& l, const vec2& r) {
 	return l.x * r.x + l.y * r.y;
@@ -90,7 +110,6 @@ float Dot(const vec3& l, const vec3& r) {
 	return l.x * r.x + l.y * r.y + l.z * r.z;
 }
 
-#ifndef NO_EXTRAS
 vec2& operator+=(vec2& l, const vec2& r) {
 	l.x += r.x;
 	l.y += r.y;
@@ -168,7 +187,6 @@ vec3& operator/=(vec3& l, const float r) {
 	l.z /= r;
 	return l;
 }
-#endif
 
 float Magnitude(const vec2& v) {
 	return sqrtf(Dot(v, v));
@@ -186,7 +204,6 @@ float MagnitudeSq(const vec3& v) {
 	return Dot(v, v);
 }
 
-#ifndef NO_EXTRAS
 float Distance(const vec2& p1, const vec2& p2) {
 	return Magnitude(p1 - p2);
 }
@@ -213,7 +230,6 @@ vec2 RotateVector(const vec2& vector, float degrees) {
 		vector.x * s + vector.y * c
 	);
 }
-#endif
 
 void Normalize(vec2& v) {
 	v = v * (1.0f / Magnitude(v));
